@@ -5,8 +5,7 @@ import {useEffect, useState} from 'react';
 //////functions, variables, handles...
 const App = () => {
   const [countriesList, setCountriesList] = useState ([]); 
-  const [inputUser, setInputUser] = useState (''); 
-  const [filterCountry, setFilterCountry] = useState ([]); 
+  const [filterCountry, setFilterCountry] = useState (''); 
 
  useEffect (()=>{
     fetch("https://restcountries.com/v3.1/all")
@@ -39,7 +38,7 @@ const App = () => {
   const renderCountriesList = () => {
     return countriesList
     .filter ((eachCountry)=> (
-      eachCountry.name.toLowerCase().includes (inputUser.toLowerCase()) || eachCountry.toLowerCase().includes (inputUser.toLowerCase())
+      eachCountry.name.toLowerCase().includes (filterCountry.toLowerCase())
      ))
     
     .map((eachCountry, cca2)=>(
