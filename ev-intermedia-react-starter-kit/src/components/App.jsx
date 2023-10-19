@@ -1,30 +1,20 @@
 ////imports: dependencies, styles, components...
 import '../styles/App.scss'
 import {useEffect, useState} from 'react';
+import Services from './Services'
+import getDataFromApi from './Services';
 
 //////functions, variables, handles...
 const App = () => {
-  const [countriesList, setCountriesList] = useState ([]); 
+  const [country, setCountry] = useState ([]); 
   const [filterCountry, setFilterCountry] = useState (''); 
+  const [filterContinent, setFilterContinent] = useState('All');
 
  useEffect (()=>{
-    fetch("https://restcountries.com/v3.1/all")
-    .then((response)=> response.json())
-    .then ((data) => {
-      const cleanData = data.map (countriesList=>{
-        const newList = {
-          flag: countriesList.flag,
-          id: countriesList.cca2,
-          name: countriesList.name.official,
-          capital: countriesList.capital,
-          continents: countriesList.continents,
-        }
-        return newList; 
-      })
-      console.log (cleanData)
-      setCountriesList(cleanData)
-    })
-  }, [])
+    getDataFromApi ().then ((cleanData)=> {
+      setCountry(cleanData);
+    });
+  }, []); 
 
   const handleSubmit = (ev) => {
     ev.preventDefault ();
@@ -34,19 +24,26 @@ const App = () => {
    setFilterCountry (ev.target.value); 
   }
   
+  const handleFilterContinent = (ev) => {
+    setFilterContinent(ev.target.value);
+  }
 
   const renderCountriesList = () => {
-    return countriesList
+    return country
     .filter ((eachCountry)=> (
       eachCountry.name.toLowerCase().includes (filterCountry.toLowerCase())
      ))
     
-    .map((eachCountry, cca2)=>(
-      <li className="country" key={cca2} > 
+    .filter ((eachCountry) => (
+       filterContinent === 'All' ? true : eachCountry.continents.includes(filterContinent)
+    ))
+    
+    .map((eachCountry, index)=>(
+      <li className="country" key={index} > 
         <p>{eachCountry.flag}</p>
         <p>{eachCountry.name}</p>
         <p>{eachCountry.capital}</p>
-        <p> {eachCountry.continents}</p>
+        <p>{eachCountry.continents}</p>
       </li>
     ));
    }
@@ -59,30 +56,36 @@ const App = () => {
         </header>
         <main>
         <form onSubmit={handleSubmit}>
+          <label htmlFor= 'search'>By country</label>
+            <input 
+            type='text'
+            name="search"
+            value={filterCountry}
+            id= 'search'
+            placeholder="Spain..."
+            onChange={handleSearch}
+            />
 
-        <label>By country</label>
-        <input 
-        type='text'
-        name="search"
-        value={filterCountry}
-        id= {countriesList.cca2}
-        placeholder="Spain..."
-        onChange={handleSearch}
-        />
+          <label htmlFor= 'continents'>By continents</label>
+            <select  
+            name='continents' 
+            id='continents' 
+            onChange={handleFilterContinent} 
+            value={filterContinent}>
 
-        <label>By continents</label>
-         <select name='continents' id={countriesList.cca2} >
-          <option>All</option>
-          <option>Africa</option>
-          <option>North america</option>
-          <option>South america</option>
-          <option>Europe</option>
-          <option>Asia</option>
-          <option>Oceania</option>
-        </select>
-        </form>
+              <option value='All'>All</option>
+              <option value='Africa'>Africa</option>
+              <option value='North America'>North america</option>
+              <option value='South America'>South america</option>
+              <option value='Europe'>Europe</option>
+              <option value='Asia'>Asia</option>
+              <option value='Oceania'>Oceania</option>
+
+            </select>
+
+         </form>
         <ul>{renderCountriesList()}</ul>
-        </main>
+      </main>
     </>;
 }
 
