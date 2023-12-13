@@ -2,7 +2,6 @@
 import "../styles/Index.scss";
 import "../styles/core/Reset.scss";
 import { useEffect, useState } from "react";
-import Services from "./Services";
 import getDataFromApi from "./Services";
 
 //////functions, variables, handles...
