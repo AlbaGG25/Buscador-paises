@@ -1,6 +1,6 @@
 Are you looking for your next holiday destination? Don't you know what the Ghana flag looks like?
 
-This is the perfect website for you!
+:boom: This is the perfect website for you! :boom:
 
 The following project is a website where you can find important information about each country.
 
