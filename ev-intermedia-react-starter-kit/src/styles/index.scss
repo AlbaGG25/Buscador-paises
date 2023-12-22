@@ -5,20 +5,29 @@
    display: flex;
    flex-direction: column;
    align-items: center;
+   text-align: center;
    color: white;
    padding: 2rem;  
 }
 .main {
     display: flex; 
+    flex-direction: column;
     margin-top: 5rem; 
     gap: 5rem; 
+    @media (min-width: 768px){
+        display: flex; 
+        flex-direction: row;
+    }
     &_sectionForm{
        display: flex; 
        flex-direction: column; 
        gap: 2rem; 
-       margin-left: 5rem;
+       margin-inline: 2rem;
        font-size: 1.5rem;
        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+       @media (min-width: 768px){
+        margin-left: 6rem;
+       }
        &-input {
         padding: 0.5rem; 
         font-size: 1.5rem;
